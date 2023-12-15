@@ -40,6 +40,7 @@ const client_1 = require("@prisma/client");
 const crypto = __importStar(require("../src/utils/crypto"));
 const users_json_1 = __importDefault(require("./users.json"));
 const posts_json_1 = __importDefault(require("./posts.json"));
+const moment_1 = __importDefault(require("moment"));
 // Create an instance of the Prisma client
 const prisma = new client_1.PrismaClient();
 // Function to create a new user
@@ -96,6 +97,7 @@ function createUser() {
 function createPost() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            const currentDate = (0, moment_1.default)().format('YYYY-MM-DD HH:mm:ss');
             // Use the Prisma client to create a new user
             posts_json_1.default.forEach((requestBody) => __awaiter(this, void 0, void 0, function* () {
                 const options = {
@@ -103,7 +105,9 @@ function createPost() {
                         id: requestBody.id,
                         userId: requestBody.userId,
                         title: requestBody.title,
-                        body: requestBody.body
+                        body: requestBody.body,
+                        createAt: currentDate,
+                        updateAt: currentDate
                     },
                 };
                 const newPost = yield prisma.post.create(options);

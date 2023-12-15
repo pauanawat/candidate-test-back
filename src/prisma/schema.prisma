@@ -53,11 +53,13 @@ model Company {
 }
 
 model Post {
-  id     Int    @id @default(autoincrement())
-  title  String
-  body   String
-  author User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId Int
+  id       Int    @id @default(autoincrement())
+  title    String
+  body     String
+  author   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   Int
+  createAt String
+  updateAt String
 }
 
 model Token {

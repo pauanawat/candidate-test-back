@@ -21,3 +21,6 @@ export const getPostList = async (whereOption: Prisma.PostFindManyArgs) => {
 export const deletePost = async (whereOption: Prisma.PostDeleteArgs) => {
   return await prisma.post.delete(whereOption)
 }
+export const getFeedList = async (FeedFindManyArgs: Prisma.PostFindManyArgs) => {
+  return await prisma.post.findMany(FeedFindManyArgs)
+}

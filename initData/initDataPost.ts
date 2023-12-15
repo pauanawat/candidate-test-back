@@ -4,6 +4,7 @@ import * as userProvider from "../src/services/user/providers/user"
 import * as crypto from "../src/utils/crypto"
 import users from "./users.json"
 import posts from "./posts.json"
+import moment from 'moment';
 
 // Create an instance of the Prisma client
 const prisma = new PrismaClient();
@@ -58,6 +59,7 @@ async function createUser() {
 }
 async function createPost() {
   try {
+    const currentDate = moment().format('YYYY-MM-DD HH:mm:ss')
     // Use the Prisma client to create a new user
     posts.forEach(async requestBody => {
       const options: Prisma.PostCreateArgs = {
@@ -65,7 +67,9 @@ async function createPost() {
           id: requestBody.id,
           userId: requestBody.userId,
           title: requestBody.title,
-          body: requestBody.body
+          body: requestBody.body,
+          createAt: currentDate,
+          updateAt: currentDate
         },
       }
       const newPost = await prisma.post.create(options);

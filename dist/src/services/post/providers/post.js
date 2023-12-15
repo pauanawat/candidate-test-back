@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deletePost = exports.getPostList = exports.getPost = exports.getAllPosts = exports.updatePost = exports.createPost = void 0;
+exports.getFeedList = exports.deletePost = exports.getPostList = exports.getPost = exports.getAllPosts = exports.updatePost = exports.createPost = void 0;
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 const createPost = (createOption) => __awaiter(void 0, void 0, void 0, function* () {
@@ -37,4 +37,8 @@ const deletePost = (whereOption) => __awaiter(void 0, void 0, void 0, function* 
     return yield prisma.post.delete(whereOption);
 });
 exports.deletePost = deletePost;
+const getFeedList = (FeedFindManyArgs) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield prisma.post.findMany(FeedFindManyArgs);
+});
+exports.getFeedList = getFeedList;
 //# sourceMappingURL=post.js.map

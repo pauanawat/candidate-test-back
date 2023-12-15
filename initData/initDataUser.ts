@@ -55,27 +55,5 @@ async function createUser() {
     await prisma.$disconnect();
   }
 }
-async function createPost() {
-  try {
-    // Use the Prisma client to create a new user
-    posts.forEach(async requestBody => {
-      const options: Prisma.PostCreateArgs = {
-        data: {
-          id: requestBody.id,
-          userId: requestBody.userId,
-          title: requestBody.title,
-          body: requestBody.body
-        },
-      }
-      const newPost = await prisma.post.create(options);
-    })
-
-  } catch (error) {
-    console.error('Error creating post:');
-  } finally {
-    // Close the Prisma client connection
-    await prisma.$disconnect();
-  }
-}
 
 createUser()

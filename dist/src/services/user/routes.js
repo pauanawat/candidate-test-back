@@ -32,6 +32,7 @@ const basicAuth_1 = __importDefault(require("../../middleware/external_service/b
 const auth_1 = __importDefault(require("../../middleware/user/auth"));
 const router = (0, express_1.Router)();
 router.post('/login', basicAuth_1.default, UserController.login);
+router.get('/users/all', basicAuth_1.default, UserController.getAllUser);
 router.get('/users/:id', auth_1.default, UserController.getUserById);
 // filter wite req.query ex. /users?email=A&name=B
 router.get('/users', auth_1.default, UserController.getUsers);

@@ -31,8 +31,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deletePost = exports.getPostById = exports.getPosts = exports.patchPost = exports.updatePost = exports.createPost = void 0;
+exports.getFeedList = exports.deletePost = exports.getPostById = exports.getPosts = exports.patchPost = exports.updatePost = exports.createPost = void 0;
+const moment_1 = __importDefault(require("moment"));
 const ErrorHandler = __importStar(require("../../utils/error_handler"));
 const postProvider = __importStar(require("./providers/post"));
 const tokenProvider = __importStar(require("../user/providers/token"));
@@ -42,11 +46,14 @@ const createPost = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         console.log("createPost");
         (0, check_request_1.assertUserRequest)(req);
         const requestBody = req.body;
+        const currentDate = (0, moment_1.default)().format('YYYY-MM-DD HH:mm:ss');
         const options = {
             data: {
                 userId: requestBody.userId,
                 title: requestBody.title,
-                body: requestBody.body
+                body: requestBody.body,
+                createAt: currentDate,
+                updateAt: currentDate
             }
         };
         let posts = yield postProvider.createPost(options);
@@ -162,4 +169,21 @@ const deletePost = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.deletePost = deletePost;
+const getFeedList = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        let queryParam = req.query;
+        let postOptions = {
+            where: {},
+            include: { author: true }
+        };
+        if (queryParam.userId && typeof (queryParam.userId) == "string")
+            postOptions.where['userId'] = parseInt(queryParam.userId);
+        const feeds = yield postProvider.getFeedList(postOptions);
+        return res.json({ feeds, message: "success" });
+    }
+    catch (err) {
+        ErrorHandler.handleAll(err, res, next);
+    }
+});
+exports.getFeedList = getFeedList;
 //# sourceMappingURL=controllers.js.map

@@ -29,6 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const UserController = __importStar(require("./controllers"));
 const auth_1 = __importDefault(require("../../middleware/user/auth"));
+const basicAuth_1 = __importDefault(require("../../middleware/external_service/basicAuth"));
 const router = (0, express_1.Router)();
 router.get('/posts/:id', auth_1.default, UserController.getPostById);
 // filter wite req.query ex. /posts?email=A&name=B
@@ -37,5 +38,6 @@ router.post('/posts', auth_1.default, UserController.createPost);
 router.put('/posts/:id', auth_1.default, UserController.updatePost);
 router.patch('/posts/:id', auth_1.default, UserController.patchPost);
 router.delete('/posts/:id', auth_1.default, UserController.deletePost);
+router.get('/feeds', basicAuth_1.default, UserController.getFeedList);
 exports.default = router;
 //# sourceMappingURL=routes.js.map

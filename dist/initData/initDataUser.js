@@ -38,7 +38,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@prisma/client");
 const crypto = __importStar(require("../src/utils/crypto"));
 const users_json_1 = __importDefault(require("./users.json"));
-const posts_json_1 = __importDefault(require("./posts.json"));
 // Create an instance of the Prisma client
 const prisma = new client_1.PrismaClient();
 // Function to create a new user
@@ -85,31 +84,6 @@ function createUser() {
         }
         catch (error) {
             console.error('Error creating user:');
-        }
-        finally {
-            // Close the Prisma client connection
-            yield prisma.$disconnect();
-        }
-    });
-}
-function createPost() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            // Use the Prisma client to create a new user
-            posts_json_1.default.forEach((requestBody) => __awaiter(this, void 0, void 0, function* () {
-                const options = {
-                    data: {
-                        id: requestBody.id,
-                        userId: requestBody.userId,
-                        title: requestBody.title,
-                        body: requestBody.body
-                    },
-                };
-                const newPost = yield prisma.post.create(options);
-            }));
-        }
-        catch (error) {
-            console.error('Error creating post:');
         }
         finally {
             // Close the Prisma client connection

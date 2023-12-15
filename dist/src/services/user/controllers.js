@@ -35,7 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUser = exports.getUserById = exports.getUsers = exports.patchUser = exports.updateUser = exports.createUser = exports.login = void 0;
+exports.deleteUser = exports.getUserById = exports.getUsers = exports.getAllUser = exports.patchUser = exports.updateUser = exports.createUser = exports.login = void 0;
 const moment_1 = __importDefault(require("moment"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const ErrorHandler = __importStar(require("../../utils/error_handler"));
@@ -265,6 +265,18 @@ const patchUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.patchUser = patchUser;
+const getAllUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        let userOptions = {};
+        const users = yield userProvider.getUserList(userOptions)
+            .then(users => users.map(user => { return { id: user.id, name: user.name }; }));
+        return res.json({ users });
+    }
+    catch (err) {
+        ErrorHandler.handleAll(err, res, next);
+    }
+});
+exports.getAllUser = getAllUser;
 const getUsers = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         (0, check_request_1.assertUserRequest)(req);

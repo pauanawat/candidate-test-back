@@ -15,11 +15,14 @@ export const createPost = async (req: Request, res: Response, next: NextFunction
     console.log("createPost")
     assertUserRequest(req)
     const requestBody: Post = req.body
+    const currentDate = moment().format('YYYY-MM-DD HH:mm:ss')
     const options: Prisma.PostCreateArgs = {
       data: {
         userId: requestBody.userId,
         title: requestBody.title,
-        body: requestBody.body
+        body: requestBody.body,
+        createAt: currentDate,
+        updateAt: currentDate
       }
     }
     let posts = await postProvider.createPost(options)
@@ -119,6 +122,21 @@ export const deletePost = async (req: Request, res: Response, next: NextFunction
       await tokenProvider.logginToken({ data: { token: req.token, action: "delete post", target: "postId " + posts.id } })
       return res.json({ posts, message: "success" })
     })
+  } catch (err) {
+    ErrorHandler.handleAll(err, res, next)
+  }
+}
+export const getFeedList = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    let queryParam = req.query
+    let postOptions: Prisma.PostFindManyArgs = {
+      where: {},
+      include: { author: true }
+    }
+    if (queryParam.userId && typeof (queryParam.userId) == "string")
+      postOptions.where['userId'] = parseInt(queryParam.userId)
+    const feeds = await postProvider.getFeedList(postOptions)
+    return res.json({ feeds, message: "success" })
   } catch (err) {
     ErrorHandler.handleAll(err, res, next)
   }

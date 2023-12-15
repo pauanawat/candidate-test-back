@@ -37,7 +37,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
       data: {
         userId: user.id,
         status: TOKEN_STATUS.USED,
-        expireAt: moment().add(1, 'days').format('YYYY-MM-DD HH:mm:ss')
+        expireAt: moment().add(1, 'h').format('YYYY-MM-DD HH:mm:ss')
       },
     }
     const token = await tokenProvider.createToken(tokenCreateOptions)
@@ -208,6 +208,17 @@ export const patchUser = async (req: Request, res: Response, next: NextFunction)
     if ('password' in result) delete result.password
     await tokenProvider.logginToken({ data: { token: req.token, action: "patch user", target: "userId " + user.id } })
     return res.status(202).json({ data: result, message: "success" })
+  } catch (err) {
+    ErrorHandler.handleAll(err, res, next)
+  }
+}
+export const getAllUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    let userOptions: Prisma.UserFindManyArgs = {}
+    const users =
+      await userProvider.getUserList(userOptions)
+        .then(users => users.map(user => { return { id: user.id, name: user.name } }))
+    return res.json({ users })
   } catch (err) {
     ErrorHandler.handleAll(err, res, next)
   }

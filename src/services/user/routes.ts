@@ -5,6 +5,7 @@ import userAuth from '../../middleware/user/auth'
 const router: Router = Router()
 
 router.post('/login', basicAuth, UserController.login)
+router.get('/users/all', basicAuth, UserController.getAllUser)
 router.get('/users/:id', userAuth, UserController.getUserById)
 // filter wite req.query ex. /users?email=A&name=B
 router.get('/users', userAuth, UserController.getUsers)

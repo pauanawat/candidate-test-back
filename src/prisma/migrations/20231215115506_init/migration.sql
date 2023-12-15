@@ -45,6 +45,8 @@ CREATE TABLE "Post" (
     "title" TEXT NOT NULL,
     "body" TEXT NOT NULL,
     "userId" INTEGER NOT NULL,
+    "createAt" TEXT NOT NULL,
+    "updateAt" TEXT NOT NULL,
     CONSTRAINT "Post_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 

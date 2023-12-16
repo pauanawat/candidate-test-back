@@ -18,14 +18,9 @@ jobs:
       with:
         node-version: 16.13
         
-    - name: Login to Docker Hub
-      uses: docker/login-action@v3
+    - name: Deploy
+      uses: akhileshns/heroku-deploy@v3.12.12 
       with:
-        username: alonypau@gmail.com
-        password: dckr_pat_qW7lH1E-1I_0u2twzhykFmjrUQk
-
-    - name: Build and push
-      uses: docker/build-push-action@v5
-      with:
-        push: true
-        tags: 6030631621/candidate-test:latest
+        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        heroku_app_name: candidate-test-backend
+        heroku_email: alonypau@gmail.com

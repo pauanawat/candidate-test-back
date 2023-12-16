@@ -4,9 +4,9 @@ WORKDIR /project/api
 
 COPY package*.json ./
 RUN npm install
-RUN npx prisma generate
-RUN npx prisma init --datasource-provider sqlite
 COPY . .
+RUN npx prisma init --datasource-provider sqlite
+RUN npx prisma generate --schema=./src/prisma/schema.prisma
 
 RUN npx tsc  
 

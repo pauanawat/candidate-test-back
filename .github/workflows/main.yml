@@ -17,10 +17,15 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: 16.13
-        
-    - name: Deploy
-      uses: akhileshns/heroku-deploy@v3.12.12 
-      with:
-        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-        heroku_app_name: candidate-test-backend
-        heroku_email: alonypau@gmail.com
+
+    - name: Log in to Heroku Registry
+      run: heroku container:login
+      env:
+        HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
+
+    - name: Build and Push Docker Image
+      run: |
+        heroku container:push -a candidate-test-backend web
+        heroku container:release -a candidate-test-backend web
+      env:
+        HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}

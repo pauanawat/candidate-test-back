@@ -18,8 +18,8 @@ jobs:
       with:
         node-version: 14
 
-    - name: Login to Heroku
-      run: heroku container:login
+    - name: Log in to Heroku
+      run: echo "$HEROKU_API_KEY" | docker login -u=_ --password-stdin registry.heroku.com
 
     - name: Build and Push Docker Image
       run: |

@@ -23,8 +23,13 @@ jobs:
       env:
         HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
 
-    - name: Generate Prisma Client
-      run: npx prisma generate   
+    - name: Debug
+      run: |
+        echo "Node version: $(node --version)"
+        echo "Npm version: $(npm --version)"
+        ls -la  # List project directory contents
+        cat tsconfig.json  # Output the content of tsconfig.json
+        npx prisma --version  # Output Prisma version
 
     - name: Build and Push Docker Image
       run: |

@@ -3,8 +3,7 @@ FROM node:latest AS build
 WORKDIR /project/api
 
 COPY package*.json ./
-RUN npm install && npm install typescript@4.1.6 -g
-RUN npm install prisma --save-dev
+RUN npm install
 RUN npx prisma init --datasource-provider sqlite
 COPY . .
 

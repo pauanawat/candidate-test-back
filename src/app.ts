@@ -1,7 +1,7 @@
 import { initData } from '../initData/testScript';
 import app from './config/app'
 
-const port = 3001;
+const port = 80;
 
 app.get('/', (req, res) => {
   res.send('Hello World!');

@@ -10,5 +10,4 @@ RUN npx prisma generate --schema=./src/prisma/schema.prisma
 
 RUN npx tsc  
 
-EXPOSE 80
 CMD ["node", "./dist/src/app.js"]

@@ -4,6 +4,7 @@ WORKDIR /project/api
 
 COPY package*.json ./
 RUN npm install
+RUN npx prisma generate
 RUN npx prisma init --datasource-provider sqlite
 COPY . .
 

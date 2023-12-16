@@ -19,3 +19,4 @@ jobs:
         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
         heroku_app_name: candidate-test-backend
         heroku_email: alonypau@gmail.com
+        usedocker: true

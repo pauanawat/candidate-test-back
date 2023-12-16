@@ -9,15 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const client_1 = require("@prisma/client");
-const prisma = new client_1.PrismaClient();
-const getFeed = (number) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        let feed = yield prisma.post.findMany({ include: { author: true }, take: number });
-        console.log(feed);
-    }
-    catch (error) {
-    }
+exports.initData = void 0;
+const initDataUser_1 = require("../initData/initDataUser");
+const initDataPost_1 = require("../initData/initDataPost");
+const initData = () => __awaiter(void 0, void 0, void 0, function* () {
+    yield (0, initDataUser_1.createUser)();
+    yield (0, initDataPost_1.createPost)();
 });
-getFeed(1);
+exports.initData = initData;
 //# sourceMappingURL=testScript.js.map

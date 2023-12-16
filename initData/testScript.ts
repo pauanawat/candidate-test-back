@@ -1,12 +1,8 @@
-import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
-const getFeed = async (number: number) => {
-    try {
-        let feed = await prisma.post.findMany({ include: { author: true },take: number })
-        console.log(feed)
-    } catch (error) {
+import { createUser } from '../initData/initDataUser'
+import { createPost } from '../initData/initDataPost'
 
-    }
-}
-getFeed(1)
+export const initData = async () => {
+    await createUser()
+    await createPost()
+} 

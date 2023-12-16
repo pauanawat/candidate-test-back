@@ -35,6 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.createPost = void 0;
 // Import your Prisma client
 const client_1 = require("@prisma/client");
 const crypto = __importStar(require("../src/utils/crypto"));
@@ -99,7 +100,7 @@ function createPost() {
         try {
             const currentDate = (0, moment_1.default)().format('YYYY-MM-DD HH:mm:ss');
             // Use the Prisma client to create a new user
-            posts_json_1.default.forEach((requestBody) => __awaiter(this, void 0, void 0, function* () {
+            for (const requestBody of posts_json_1.default) {
                 const options = {
                     data: {
                         id: requestBody.id,
@@ -111,7 +112,7 @@ function createPost() {
                     },
                 };
                 const newPost = yield prisma.post.create(options);
-            }));
+            }
         }
         catch (error) {
             console.error('Error creating post:');
@@ -122,5 +123,5 @@ function createPost() {
         }
     });
 }
-createPost();
+exports.createPost = createPost;
 //# sourceMappingURL=initDataPost.js.map

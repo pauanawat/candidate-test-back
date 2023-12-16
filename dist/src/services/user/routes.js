@@ -22,6 +22,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -31,6 +40,20 @@ const UserController = __importStar(require("./controllers"));
 const basicAuth_1 = __importDefault(require("../../middleware/external_service/basicAuth"));
 const auth_1 = __importDefault(require("../../middleware/user/auth"));
 const router = (0, express_1.Router)();
+router.get('/checkHealth', (_req, res, _next) => __awaiter(void 0, void 0, void 0, function* () {
+    const healthcheck = {
+        uptime: process.uptime(),
+        message: 'OK',
+        timestamp: Date.now()
+    };
+    try {
+        res.send(healthcheck);
+    }
+    catch (error) {
+        healthcheck.message = error;
+        res.status(503).send();
+    }
+}));
 router.post('/login', basicAuth_1.default, UserController.login);
 router.get('/users/all', basicAuth_1.default, UserController.getAllUser);
 router.get('/users/:id', auth_1.default, UserController.getUserById);

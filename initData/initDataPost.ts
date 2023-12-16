@@ -57,11 +57,11 @@ async function createUser() {
     await prisma.$disconnect();
   }
 }
-async function createPost() {
+export async function createPost() {
   try {
     const currentDate = moment().format('YYYY-MM-DD HH:mm:ss')
     // Use the Prisma client to create a new user
-    posts.forEach(async requestBody => {
+    for (const requestBody of posts) {
       const options: Prisma.PostCreateArgs = {
         data: {
           id: requestBody.id,
@@ -73,7 +73,7 @@ async function createPost() {
         },
       }
       const newPost = await prisma.post.create(options);
-    })
+    }
 
   } catch (error) {
     console.error('Error creating post:');
@@ -82,4 +82,3 @@ async function createPost() {
     await prisma.$disconnect();
   }
 }
-createPost()

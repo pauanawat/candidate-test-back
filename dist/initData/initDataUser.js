@@ -35,6 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.createUser = void 0;
 const client_1 = require("@prisma/client");
 const crypto = __importStar(require("../src/utils/crypto"));
 const users_json_1 = __importDefault(require("./users.json"));
@@ -45,7 +46,7 @@ function createUser() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             // Use the Prisma client to create a new user
-            users_json_1.default.forEach((requestBody) => __awaiter(this, void 0, void 0, function* () {
+            for (const requestBody of users_json_1.default) {
                 requestBody["password"] = yield crypto.hash("password");
                 const options = {
                     data: {
@@ -80,7 +81,7 @@ function createUser() {
                     },
                 };
                 const newUser = yield prisma.user.create(options);
-            }));
+            }
         }
         catch (error) {
             console.error('Error creating user:');
@@ -91,5 +92,5 @@ function createUser() {
         }
     });
 }
-createUser();
+exports.createUser = createUser;
 //# sourceMappingURL=initDataUser.js.map

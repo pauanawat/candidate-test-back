@@ -8,10 +8,10 @@ import posts from "./posts.json"
 const prisma = new PrismaClient();
 
 // Function to create a new user
-async function createUser() {
+export async function createUser() {
   try {
     // Use the Prisma client to create a new user
-    users.forEach(async requestBody => {
+    for (const requestBody of users) {
       requestBody["password"] = await crypto.hash("password")
       const options: Prisma.UserCreateArgs = {
         data: {
@@ -46,7 +46,7 @@ async function createUser() {
         },
       }
       const newUser = await prisma.user.create(options);
-    })
+    }
 
   } catch (error) {
     console.error('Error creating user:');
@@ -55,5 +55,3 @@ async function createUser() {
     await prisma.$disconnect();
   }
 }
-
-createUser()

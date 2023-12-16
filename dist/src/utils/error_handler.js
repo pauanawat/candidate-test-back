@@ -41,12 +41,7 @@ const clientError = (err, res, next) => {
 exports.clientError = clientError;
 const serverError = (err, res, next) => {
     console.error(err);
-    if (process.env.NODE_ENV === 'production') {
-        res.status(500).send('Internal Server Error');
-    }
-    else {
-        res.status(500).send(err.stack);
-    }
+    res.status(500).send(err.stack);
 };
 exports.serverError = serverError;
 const handleAll = (err, res, next) => {

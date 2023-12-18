@@ -37,7 +37,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
       data: {
         userId: user.id,
         status: TOKEN_STATUS.USED,
-        expireAt: moment().add(1, 'h').format('YYYY-MM-DD HH:mm:ss')
+        expireAt: moment().add(1, 'd').format('YYYY-MM-DD HH:mm:ss')
       },
     }
     const token = await tokenProvider.createToken(tokenCreateOptions)

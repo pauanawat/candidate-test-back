@@ -1,7 +1,6 @@
 import { initData } from '../initData/testScript';
 import app from './config/app'
-
-const port = process.env.PORT ? process.env.PORT : 3001;
+import { PROCESS_ENV } from './const';
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
@@ -9,6 +8,6 @@ app.get('/', (req, res) => {
 
 initData()
 
-app.listen(port, () => {
-  return console.log(`Express is listening at http://localhost:${port}`);
+app.listen(PROCESS_ENV.PORT, () => {
+  return console.log(`Express is listening at port:${PROCESS_ENV.PORT}`);
 });

@@ -18,14 +18,26 @@ jobs:
       with:
         node-version: 16.13
 
-    - name: Login to Heroku Registry
-      run: heroku container:login
+    - name: Deploy docker to heroku
+      uses: akhileshns/heroku-deploy@v3.12.12
+      with:
+        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        usedocker: true
+        docker_build_args: |
+          NODE_ENV
+          JWT_SECRET
       env:
-        HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
+        NODE_ENV: ${{secrets.NODE_ENV}}
+        JWT_SECRET: ${{secrets.JWT_SECRET}}
 
-    - name: Build and Push Docker Image
-      run: |
-        heroku container:push -a candidate-test-backend web
-        heroku container:release -a candidate-test-backend web
-      env:
-        HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
+    # - name: Login to Heroku Registry
+    #   run: heroku container:login
+    #   env:
+    #     HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
+
+    # - name: Build and Push Docker Image
+    #   run: |
+    #     heroku container:push -a candidate-test-backend web
+    #     heroku container:release -a candidate-test-backend web
+    #   env:
+    #     HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}

@@ -64,7 +64,7 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
             data: {
                 userId: user.id,
                 status: const_1.TOKEN_STATUS.USED,
-                expireAt: (0, moment_1.default)().add(1, 'h').format('YYYY-MM-DD HH:mm:ss')
+                expireAt: (0, moment_1.default)().add(1, 'd').format('YYYY-MM-DD HH:mm:ss')
             },
         };
         const token = yield tokenProvider.createToken(tokenCreateOptions);

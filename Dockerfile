@@ -2,6 +2,11 @@
 FROM node:latest AS build
 WORKDIR /project/api
 
+ARG NODE_ENV
+ENV NODE_ENV $NODE_ENV
+ARG JWT_SECRET
+ENV JWT_SECRET $JWT_SECRET
+
 COPY package*.json ./
 RUN npm install
 COPY . .

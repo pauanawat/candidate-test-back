@@ -5,15 +5,9 @@ import swaggerDocument from "./swager.json"
 import routes from '../services'
 import { applyMiddleware, applyRoutes } from '../utils'
 import errorHandlers from '../middleware/error_handlers'
+import { NODE_ENV, PROCESS_ENV } from '../const';
 
 const app = express()
-// generate swager.json
-// import expressOasGenerator from 'express-oas-generator'
-// expressOasGenerator.init(app,
-//   function (spec) { return spec; },
-//   'swager.json',
-//   60 * 1000,
-//   'api-docs',);
 app.use(bodyParser.json({ limit: '10mb' }))
 app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }))
 
@@ -24,8 +18,10 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next()
 })
 
-// Serve Swagger UI
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// Swagger UI
+console.log("env:",PROCESS_ENV.NODE_ENV)
+if (PROCESS_ENV.NODE_ENV == NODE_ENV.DEV)
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 applyRoutes(routes, app)
 applyMiddleware(errorHandlers, app)

@@ -68,7 +68,3 @@ async function CheckUserStatus(
     ErrorHandler.clientError(err, res, next)
   }
 }
-
-export const loggingToken = () => {
-
-}

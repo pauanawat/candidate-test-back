@@ -58,7 +58,7 @@ const createPost = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         };
         let posts = yield postProvider.createPost(options);
         yield tokenProvider.logginToken({ data: { token: req.token, action: "create post", target: "postId " + posts.id } });
-        return res.json({ posts, message: "success" });
+        return res.status(201).json({ data: posts });
     }
     catch (err) {
         ErrorHandler.handleAll(err, res, next);
@@ -80,7 +80,7 @@ const updatePost = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         };
         const post = yield postProvider.updatePost(postOptions);
         yield tokenProvider.logginToken({ data: { token: req.token, action: "put post", target: "postId " + post.id } });
-        return res.status(202).json({ data: post, message: "success" });
+        return res.status(200).json({ data: post });
     }
     catch (err) {
         ErrorHandler.handleAll(err, res, next);
@@ -104,7 +104,7 @@ const patchPost = (req, res, next) => __awaiter(void 0, void 0, void 0, function
         if (Object.keys(postOptions.data).length !== 0)
             post = yield postProvider.updatePost(postOptions);
         yield tokenProvider.logginToken({ data: { token: req.token, action: "patch post", target: "postId " + post.id } });
-        return res.status(202).json({ data: post, message: "success" });
+        return res.status(200).json({ data: post });
     }
     catch (err) {
         ErrorHandler.handleAll(err, res, next);
@@ -129,7 +129,7 @@ const getPosts = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
             postOptions['where']['body'] = { "contains": queryParam.body };
         const posts = yield postProvider.getPostList(postOptions);
         yield tokenProvider.logginToken({ data: { token: req.token, action: "get posts", target: "" } });
-        return res.json({ posts });
+        return res.status(200).json({ data: posts });
     }
     catch (err) {
         ErrorHandler.handleAll(err, res, next);
@@ -145,7 +145,7 @@ const getPostById = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         };
         const post = yield postProvider.getPost(options);
         yield tokenProvider.logginToken({ data: { token: req.token, action: "get post by id", target: "postId " + id } });
-        return res.json({ post: post });
+        return res.status(200).json({ data: post });
     }
     catch (err) {
         ErrorHandler.handleAll(err, res, next);
@@ -161,7 +161,7 @@ const deletePost = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         };
         postProvider.deletePost(options).then((posts) => __awaiter(void 0, void 0, void 0, function* () {
             yield tokenProvider.logginToken({ data: { token: req.token, action: "delete post", target: "postId " + posts.id } });
-            return res.json({ posts, message: "success" });
+            return res.status(200).json({ data: posts });
         }));
     }
     catch (err) {
@@ -179,7 +179,7 @@ const getFeedList = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         if (queryParam.userId && typeof (queryParam.userId) == "string")
             postOptions.where['userId'] = parseInt(queryParam.userId);
         const feeds = yield postProvider.getFeedList(postOptions);
-        return res.json({ feeds, message: "success" });
+        return res.status(200).json({ data: feeds });
     }
     catch (err) {
         ErrorHandler.handleAll(err, res, next);

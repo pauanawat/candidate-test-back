@@ -98,7 +98,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
     let users = await userProvider.createUser(options)
     delete users.password
     await tokenProvider.logginToken({ data: { token: req.token, action: "create user", target: "userId " + users.id } })
-    return res.json({ users, message: "success" })
+    return res.status(201).json({ data: users })
   } catch (err) {
     ErrorHandler.handleAll(err, res, next)
   }
@@ -149,7 +149,7 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
     if ('password' in result) delete result.password
 
     await tokenProvider.logginToken({ data: { token: req.token, action: "put user", target: "userId " + user.id } })
-    return res.status(202).json({ data: result, message: "success" })
+    return res.status(200).json({ data: result })
   } catch (err) {
     ErrorHandler.handleAll(err, res, next)
   }
@@ -207,7 +207,7 @@ export const patchUser = async (req: Request, res: Response, next: NextFunction)
     if (company) result['company'] = company
     if ('password' in result) delete result.password
     await tokenProvider.logginToken({ data: { token: req.token, action: "patch user", target: "userId " + user.id } })
-    return res.status(202).json({ data: result, message: "success" })
+    return res.status(200).json({ data: result })
   } catch (err) {
     ErrorHandler.handleAll(err, res, next)
   }
@@ -218,7 +218,7 @@ export const getAllUser = async (req: Request, res: Response, next: NextFunction
     const users =
       await userProvider.getUserList(userOptions)
         .then(users => users.map(user => { return { id: user.id, name: user.name } }))
-    return res.json({ users })
+    return res.status(200).json({ data: users })
   } catch (err) {
     ErrorHandler.handleAll(err, res, next)
   }
@@ -286,7 +286,7 @@ export const getUsers = async (req: Request, res: Response, next: NextFunction) 
         return user
       })
       await tokenProvider.logginToken({ data: { token: req.token, action: "get users", target: "" } })
-      return res.json({ result })
+      return res.status(200).json({ data: result })
     })
   } catch (err) {
     ErrorHandler.handleAll(err, res, next)
@@ -310,7 +310,7 @@ export const getUserById = async (req: Request, res: Response, next: NextFunctio
     userProvider.getUser(options).then(async user => {
       delete user.password
       await tokenProvider.logginToken({ data: { token: req.token, action: "get user by id", target: "userId " + id } })
-      return res.json({ user: user })
+      return res.status(200).json({ data: user })
     })
   } catch (err) {
     ErrorHandler.handleAll(err, res, next)
@@ -326,7 +326,7 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
     userProvider.deleteUser(options).then(async users => {
       delete users.password
       await tokenProvider.logginToken({ data: { token: req.token, action: "delete user", target: "userId " + users.id } })
-      return res.json({ users, message: "success" })
+      return res.status(200).json({ data: users })
     })
   } catch (err) {
     ErrorHandler.handleAll(err, res, next)

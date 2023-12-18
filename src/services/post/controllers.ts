@@ -1,13 +1,9 @@
 import { NextFunction, Request, Response } from 'express'
 import moment from 'moment'
-import jwt from 'jsonwebtoken'
 import * as ErrorHandler from '../../utils/error_handler'
-import { HTTP401Error } from '../../utils/http_errors'
 import * as postProvider from './providers/post'
 import * as tokenProvider from '../user/providers/token'
-import * as crypto from '../../utils/crypto'
-import { Address, Company, Geo, Prisma, Post } from '@prisma/client'
-import { PROCESS_ENV, TOKEN_STATUS } from '../../const'
+import { Prisma, Post } from '@prisma/client'
 import { assertUserRequest } from '../../utils/check_request'
 
 export const createPost = async (req: Request, res: Response, next: NextFunction) => {
@@ -27,7 +23,7 @@ export const createPost = async (req: Request, res: Response, next: NextFunction
     }
     let posts = await postProvider.createPost(options)
     await tokenProvider.logginToken({ data: { token: req.token, action: "create post", target: "postId " + posts.id } })
-    return res.json({ posts, message: "success" })
+    return res.status(201).json({ data: posts })
   } catch (err) {
     ErrorHandler.handleAll(err, res, next)
   }
@@ -48,7 +44,7 @@ export const updatePost = async (req: Request, res: Response, next: NextFunction
     const post = await postProvider.updatePost(postOptions)
 
     await tokenProvider.logginToken({ data: { token: req.token, action: "put post", target: "postId " + post.id } })
-    return res.status(202).json({ data: post, message: "success" })
+    return res.status(200).json({ data: post })
   } catch (err) {
     ErrorHandler.handleAll(err, res, next)
   }
@@ -69,7 +65,7 @@ export const patchPost = async (req: Request, res: Response, next: NextFunction)
       post = await postProvider.updatePost(postOptions)
 
     await tokenProvider.logginToken({ data: { token: req.token, action: "patch post", target: "postId " + post.id } })
-    return res.status(202).json({ data: post, message: "success" })
+    return res.status(200).json({ data: post })
   } catch (err) {
     ErrorHandler.handleAll(err, res, next)
   }
@@ -92,7 +88,7 @@ export const getPosts = async (req: Request, res: Response, next: NextFunction) 
       postOptions['where']['body'] = { "contains": queryParam.body }
     const posts = await postProvider.getPostList(postOptions)
     await tokenProvider.logginToken({ data: { token: req.token, action: "get posts", target: "" } })
-    return res.json({ posts })
+    return res.status(200).json({ data: posts })
   } catch (err) {
     ErrorHandler.handleAll(err, res, next)
   }
@@ -106,7 +102,7 @@ export const getPostById = async (req: Request, res: Response, next: NextFunctio
     }
     const post = await postProvider.getPost(options)
     await tokenProvider.logginToken({ data: { token: req.token, action: "get post by id", target: "postId " + id } })
-    return res.json({ post: post })
+    return res.status(200).json({ data: post })
   } catch (err) {
     ErrorHandler.handleAll(err, res, next)
   }
@@ -120,7 +116,7 @@ export const deletePost = async (req: Request, res: Response, next: NextFunction
     }
     postProvider.deletePost(options).then(async posts => {
       await tokenProvider.logginToken({ data: { token: req.token, action: "delete post", target: "postId " + posts.id } })
-      return res.json({ posts, message: "success" })
+      return res.status(200).json({ data: posts })
     })
   } catch (err) {
     ErrorHandler.handleAll(err, res, next)
@@ -136,7 +132,7 @@ export const getFeedList = async (req: Request, res: Response, next: NextFunctio
     if (queryParam.userId && typeof (queryParam.userId) == "string")
       postOptions.where['userId'] = parseInt(queryParam.userId)
     const feeds = await postProvider.getFeedList(postOptions)
-    return res.json({ feeds, message: "success" })
+    return res.status(200).json({ data: feeds })
   } catch (err) {
     ErrorHandler.handleAll(err, res, next)
   }

@@ -35,7 +35,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loggingToken = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const const_1 = require("../../const");
 const user_1 = require("../../services/user/providers/user");
@@ -90,7 +89,4 @@ function CheckUserStatus(decodedToken, token, req, res, next) {
         }
     });
 }
-const loggingToken = () => {
-};
-exports.loggingToken = loggingToken;
 //# sourceMappingURL=auth.js.map

@@ -126,7 +126,7 @@ const createUser = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         let users = yield userProvider.createUser(options);
         delete users.password;
         yield tokenProvider.logginToken({ data: { token: req.token, action: "create user", target: "userId " + users.id } });
-        return res.json({ users, message: "success" });
+        return res.status(201).json({ data: users });
     }
     catch (err) {
         ErrorHandler.handleAll(err, res, next);
@@ -179,7 +179,7 @@ const updateUser = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         if ('password' in result)
             delete result.password;
         yield tokenProvider.logginToken({ data: { token: req.token, action: "put user", target: "userId " + user.id } });
-        return res.status(202).json({ data: result, message: "success" });
+        return res.status(200).json({ data: result });
     }
     catch (err) {
         ErrorHandler.handleAll(err, res, next);
@@ -258,7 +258,7 @@ const patchUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function
         if ('password' in result)
             delete result.password;
         yield tokenProvider.logginToken({ data: { token: req.token, action: "patch user", target: "userId " + user.id } });
-        return res.status(202).json({ data: result, message: "success" });
+        return res.status(200).json({ data: result });
     }
     catch (err) {
         ErrorHandler.handleAll(err, res, next);
@@ -270,7 +270,7 @@ const getAllUser = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         let userOptions = {};
         const users = yield userProvider.getUserList(userOptions)
             .then(users => users.map(user => { return { id: user.id, name: user.name }; }));
-        return res.json({ users });
+        return res.status(200).json({ data: users });
     }
     catch (err) {
         ErrorHandler.handleAll(err, res, next);
@@ -339,7 +339,7 @@ const getUsers = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
                 return user;
             });
             yield tokenProvider.logginToken({ data: { token: req.token, action: "get users", target: "" } });
-            return res.json({ result });
+            return res.status(200).json({ data: result });
         }));
     }
     catch (err) {
@@ -365,7 +365,7 @@ const getUserById = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         userProvider.getUser(options).then((user) => __awaiter(void 0, void 0, void 0, function* () {
             delete user.password;
             yield tokenProvider.logginToken({ data: { token: req.token, action: "get user by id", target: "userId " + id } });
-            return res.json({ user: user });
+            return res.status(200).json({ data: user });
         }));
     }
     catch (err) {
@@ -383,7 +383,7 @@ const deleteUser = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         userProvider.deleteUser(options).then((users) => __awaiter(void 0, void 0, void 0, function* () {
             delete users.password;
             yield tokenProvider.logginToken({ data: { token: req.token, action: "delete user", target: "userId " + users.id } });
-            return res.json({ users, message: "success" });
+            return res.status(200).json({ data: users });
         }));
     }
     catch (err) {

@@ -1,8 +1,6 @@
 import { Prisma, PrismaClient } from '@prisma/client';
-import * as userProvider from "../src/services/user/providers/user"
 import * as crypto from "../src/utils/crypto"
 import users from "./users.json"
-import posts from "./posts.json"
 
 // Create an instance of the Prisma client
 const prisma = new PrismaClient();
@@ -45,11 +43,11 @@ export async function createUser() {
           },
         },
       }
-      const newUser = await prisma.user.create(options);
+      await prisma.user.create(options);
     }
 
   } catch (error) {
-    console.error('Error creating user:');
+    // console.error('Error creating user:');
   } finally {
     // Close the Prisma client connection
     await prisma.$disconnect();

@@ -31,15 +31,3 @@ jobs:
       env:
         NODE_ENV: ${{secrets.NODE_ENV}}
         JWT_SECRET: ${{secrets.JWT_SECRET}}
-
-    # - name: Login to Heroku Registry
-    #   run: heroku container:login
-    #   env:
-    #     HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
-
-    # - name: Build and Push Docker Image
-    #   run: |
-    #     heroku container:push -a candidate-test-backend web
-    #     heroku container:release -a candidate-test-backend web
-    #   env:
-    #     HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}

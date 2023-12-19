@@ -25,7 +25,10 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
       where: { username: requestBody.username },
     }
     let user = await userProvider.getUser(userOptions)
-    if (!user || !crypto.compare(requestBody.password, user.password))
+    if (!user)
+      throw new HTTP401Error()
+    const validPassword = await crypto.compare(requestBody.password, user.password);
+    if (!validPassword)
       throw new HTTP401Error()
     const tokenUpdateOptions: Prisma.TokenUpdateManyWithWhereWithoutAuthorInput = {
       data: { status: TOKEN_STATUS.EXPIRED },

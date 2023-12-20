@@ -32,7 +32,26 @@ Before you begin, ensure you have Node.js and npm installed on your machine.
    ```bash
    npx tsc
 
-5. Running the App:
+### Running the App
+
+- Running the App using npm command:
 
    ```bash
    node .\dist\src\app.js
+
+- Running the App using docker:
+
+   - Build docker image:
+      ```bash
+      docker build -t backend .
+
+   - Run docker container:
+      ```bash
+      docker run -p 3001:3001 --name backend backend
+
+
+This project will be running in local at [http://localhost:3001](http://localhost:3001)
+
+You can test api path [/checkHealth](http:localhost:3001/checkHealth)
+
+You can use swagger at path [/api-docs](http://localhost:3001/api-docs)
